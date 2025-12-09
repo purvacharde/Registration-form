@@ -15,6 +15,10 @@ mongoose.connect(
   console.error("MongoDB connection error:", err);
 });
 
+app.get('/home', (req, res) => {
+  res.send('Server is running');
+});
+
 // Create Schema
 const userSchema = new mongoose.Schema({
   name: String,
