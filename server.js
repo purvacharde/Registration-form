@@ -1,23 +1,22 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const path = require("path");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 🔥 Connect MongoDB (using environment variable)
-mongoose
-  .connect(process.env.MONGO_URL)
-  .then(() => console.log("Connected to MongoDB Atlas"))
-  .catch((err) => console.error("MongoDB connection error:", err));
+// Serve frontend files
+app.use(express.static(path.join(__dirname, "public")));
 
-// Test Route
-app.get("/home", (req, res) => {
-  res.send("Server is running");
-});
+// MongoDB connection
+mongoose.connect(
+  process.env.MONGO_URL || "mongodb+srv://purvacharde0501_db_user:purvacharde05@cluster0.llzn1ai.mongodb.net/RegistrationDB?retryWrites=true&w=majority&appName=Cluster0"
+).then(() => console.log("Connected to MongoDB Atlas"))
+  .catch(err => console.error("MongoDB connection error:", err));
 
-// Schema
+// Schema & Model
 const userSchema = new mongoose.Schema({
   name: String,
   dob: String,
@@ -41,10 +40,9 @@ const userSchema = new mongoose.Schema({
   emergencyContactNumber: String,
   password: String,
 });
-
 const User = mongoose.model("User", userSchema);
 
-// POST API
+// API
 app.post("/register", async (req, res) => {
   try {
     await User.create(req.body);
@@ -54,6 +52,11 @@ app.post("/register", async (req, res) => {
   }
 });
 
-// ✔ Important: Dynamic port for Render
+// Send index.html for all other routes (optional)
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
+// Dynamic port
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
