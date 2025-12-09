@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration Form</title>
+    <link rel="stylesheet" href="task1.css" />
+</head>
+
+<body>
+    <div class="form-container">
+        <h1>Registration Form</h1>
+        <form id="registrationForm">
+            <div class="row">
+                <label>Name:</label>
+                <input type="text" name="name" />
+                <label>Date of Birth:</label>
+                <input type="date" name="dob" />
+            </div>
+            <br>
+            <div class="row">
+                <label>Address:</label>
+                <input type="text" name="address" />
+                <label>Contact Number:</label>
+                <input type="text" name="contact" />
+            </div>
+            <br>
+            <div class="row">
+                <label>Email:</label>
+                <input type="email" name="email" />
+                <label>Occupation:</label>
+                <input type="text" name="occupation" />
+            </div>
+            <br>
+            <div class="row-4">
+                <label>Age:</label>
+                <input type="text" name="age" />
+                <label>Gender:</label>
+                <input type="text" name="gender" />
+                <label>Civil Status:</label>
+                <input type="text" name="civilStatus" />
+                <label>Citizenship:</label>
+                <input type="text" name="citizenship" />
+            </div>
+            <br>
+            <div class="row-4">
+                <label>Height:</label>
+                <input type="text" name="height" />
+                <label>Weight:</label>
+                <input type="text" name="weight" />
+                <label>Religion:</label>
+                <input type="text" name="religion" />
+                <label>Language:</label>
+                <input type="text" name="language" />
+            </div>
+            <br>
+            <div class="row">
+                <label>Father’s Name:</label>
+                <input type="text" name="fatherName" />
+                <label>Occupation:</label>
+                <input type="text" name="fatherOccupation" />
+            </div>
+            <br>
+            <div class="row">
+                <label>Mother’s Name:</label>
+                <input type="text" name="motherName" />
+                <label>Occupation:</label>
+                <input type="text" name="motherOccupation" />
+            </div>
+            <br>
+            <div class="row">
+                <label>Emergency Contact Person:</label>
+                <input type="text" name="emergencyContactPerson" />
+                <label>Contact Number:</label>
+                <input type="text" name="emergencyContactNumber" />
+            </div>
+            <br>
+            <div class="btn">
+                <button type="submit" id="btn">Submit</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('registrationForm').addEventListener('submit', async function (e) {
+            e.preventDefault(); const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+            const res = await fetch('http://localhost:5000/register',
+                {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+            const result = await res.json(); alert(result.message || result.error);
+        });
+    </script>
+
+</body>
+<script src="/public/index.js"></script>
+
+</html>
