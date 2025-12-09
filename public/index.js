@@ -6,7 +6,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// ✅ Paste your MongoDB Atlas connection string here
+// MongoDB connection (use env variable when deploying)
 mongoose.connect(
   "mongodb+srv://purvacharde0501_db_user:purvacharde05@cluster0.llzn1ai.mongodb.net/RegistrationDB?retryWrites=true&w=majority&appName=Cluster0"
 ).then(() => {
@@ -15,7 +15,7 @@ mongoose.connect(
   console.error("MongoDB connection error:", err);
 });
 
-// Create Schema
+// Schema
 const userSchema = new mongoose.Schema({
   name: String,
   dob: String,
@@ -42,7 +42,7 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", userSchema);
 
-// API: Receive Form Data
+// POST API
 app.post("/register", async (req, res) => {
   try {
     await User.create(req.body);
@@ -52,4 +52,7 @@ app.post("/register", async (req, res) => {
   }
 });
 
-app.listen(5000, () => console.log("Server running on ${PORT}"));
+// ✔ FIXED → Render needs dynamic port
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

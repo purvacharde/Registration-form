@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Registration Form</title>
-    <link rel="stylesheet" href="task1.css" />
+    <link rel="stylesheet" href="/public/task1.css" />
 </head>
 
 <body>
@@ -84,18 +84,26 @@
 
     <script>
         document.getElementById('registrationForm').addEventListener('submit', async function (e) {
-            e.preventDefault(); const formData = new FormData(this);
+            e.preventDefault();
+
+            const formData = new FormData(this);
             const data = Object.fromEntries(formData.entries());
-            const res = await fetch('http://localhost:5000/register',
-                {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
-            const result = await res.json(); alert(result.message || result.error);
+
+            const res = await fetch('/register', {  
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            const result = await res.json();
+            alert(result.message || result.error);
         });
+
     </script>
 
+     <script src="/public/index.js"></script> 
+
+
 </body>
-<script src="/public/index.js"></script>
 
 </html>
